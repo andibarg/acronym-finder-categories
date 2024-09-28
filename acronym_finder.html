@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Acronym Finder</title>
+	<link rel="stylesheet" href="styles.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1296/1296902.png" 
+	  sizes="any">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <p style="text-align:center">
+	  <h1>
+	    <img src="https://img.logoipsum.com/245.svg" 
+		  alt="Logo" height="25pt" style="margin-bottom: 7px;"> | Acronym Finder
+      </h1>
+	</p>
+    <p style="text-align:center">A quick way to find definitions of acronyms.</p>
+    <p style="text-align:center">Last update: <span id="lastUpdate"></span> </p>
+	<div class="row">
+      <div class="col">
+        <div class="card card-body">
+          <input id="search-input" class="form-control" type="text" placeholder="Search">
+        </div>
+      </div>
+    </div>
+	<table class="table table-striped table-bordered">
+      <tr  class="bg-info">
+        <th  width="15%" data-colname="acronym" data-order="asc">Acronym</th>
+        <th  width="70%"data-colname="term" data-order="asc">Definition</th>
+        <th  data-colname="category" data-order="asc">Category</th>
+      </tr>
+      <tbody id="acronymTable"></tbody>  
+    </table>
+	<script src="acronym_list.js"></script>
+    <script src="functions.js"></script>
+	<div class="footer">
+      <p>Submit: <a href= "mailto: name@email.com">name@email.com </a></p>
+    </div>  
+  </body>
+</html>

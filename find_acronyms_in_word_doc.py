@@ -1,15 +1,24 @@
 #!/usr/bin/env python
 
-"""Script to combine and save acronym lists (csv or xlsx).""" 
+"""Script to find acronyms in a word doc or docx file.""" 
 
 import os
 from datetime import datetime
 import pandas as pd
+import re
+import docx
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
+
+# Browse for word file
+Tk().withdraw()
+filename = askopenfilename(filetypes=[("Microsoft Word files", ".doc .docx")],
+                           initialdir=os.getcwd())
 
 # Path to all lists
 folder = os.path.join(os.getcwd(),'lists')
 
-# Find all files and skip temp Excel files
+# File all files and skip temp Excel files
 allfiles = os.listdir(folder)
 allfiles = [file for file in allfiles if not file.startswith('~$')]
 
@@ -61,29 +70,31 @@ df = df.groupby([df['Acronym'].str.lower(),df['Definition'].str.lower()],
                 as_index=False).agg({'Acronym':'first','Definition':'first',
                                      'Category':", ".join})
 
-# Write javascript file
-acronym_list = os.path.join(os.getcwd(),'acronym_list.js')
-print('\nSaving combined list ...')
-with open('acronym_list.js', 'w') as file:
-    # Fill text
-    file.write('var acronymList = [\n')
+# Open docx file
+doc = docx.Document(filename)
 
-    # Write rows
-    for ii in range(len(df)):
-        row = ('  {"acronym":"%s",'
-               '"term":"%s",'
-               '"category":"%s"},\n')
-        row = row %tuple(df.iloc[ii][['Acronym',
-                                      'Definition',
-                                      'Category']])
-        
-        # Convert special characters
-        row = row.encode("ascii", "xmlcharrefreplace").decode("utf-8")
-        
-        file.write(row)
-    file.write(']\n')
+fullText = []
+for para in doc.paragraphs:
+    fullText.append(para.text)
+fullText = ''.join(fullText)
 
-    # Add date variable
-    datevar = 'var lastUpdate = "%s";'
-    file.write(datevar %datetime.today().strftime('%B %d, %Y'))
+# Loop through all acronyms
+acronyms_doc = []
+print('\nFind all acronyms in document ...')
+for ii, acronym in enumerate(df.Acronym):
+    # Search acronym
+    prog = re.compile('\W%s\W' %acronym, flags=re.IGNORECASE)
+    result = prog.findall(fullText)
+
+    # Add to list
+    if len(result) > 0:
+        acronyms_doc.append([acronym, df.Definition[ii]])
+
+# Save as Excel
+print('\nSaving Excel list ...')
+df_doc = pd.DataFrame(acronyms_doc)
+df_doc.columns = ['Acronyms','Definitions']
+df_doc.to_excel(os.path.splitext(filename)[0] + '.xlsx',
+                index=False)
+
 print('\nDone!')

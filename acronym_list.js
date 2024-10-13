@@ -1,7 +1,7 @@
 var acronymList = [
   {"acronym":"2-for-1","term":"Two items for the price of one","category":"Business"},
   {"acronym":"AFAIK","term":"As far as I know","category":"Messages"},
-  {"acronym":"ASAP","term":"As soon as possible","category":""},
+  {"acronym":"ASAP","term":"As soon as possible","category":"Business, Messages"},
   {"acronym":"BC","term":"Because","category":"Messages"},
   {"acronym":"BOGO","term":"Buy one get one","category":"Business"},
   {"acronym":"BRB","term":"Be right back","category":"Messages"},
@@ -47,6 +47,5 @@ var acronymList = [
   {"acronym":"WBU","term":"What about you?","category":"Messages"},
   {"acronym":"Y?","term":"Why?","category":"Messages"},
   {"acronym":"YOLO","term":"You only live once","category":"Messages"},
-  {"acronym":"nan","term":"Not applicable","category":"Business"},
 ]
-var lastUpdate = "September 28, 2024";
+var lastUpdate = "October 13, 2024";
